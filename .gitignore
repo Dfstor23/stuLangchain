@@ -18,6 +18,7 @@ models/
 # Vector database / generated local artifacts
 docs/**/chroma_db/
 docs/**/chroma_db_step3/
+docs/**/chroma_db*/
 
 # Local assistant/tool config
 .claude/
