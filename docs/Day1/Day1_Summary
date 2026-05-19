@@ -1,0 +1,66 @@
+Day1 学习总结（LangChain 入门）
+
+一、Day1 学习内容
+1. 基础模型调用
+- 使用 `ChatDeepSeek` 初始化模型并通过 `model.invoke()` 进行最小闭环调用。
+- 理解环境变量 `DEEPSEEK_API_KEY` 的作用，以及缺失时的报错逻辑。
+
+2. Prompt 模板化
+- 使用 `ChatPromptTemplate` 将提示词结构化，避免每次手写完整 prompt。
+- 使用 LCEL 管道 `prompt | model | StrOutputParser()` 组织调用流程。
+- 理解模板变量替换（如 `level/style/topic`）对输出风格和内容的影响。
+
+3. 轻量 RAG 流程
+- 读取本地文本并使用 `RecursiveCharacterTextSplitter` 进行切块。
+- 将切块包装为 `Document` 列表，作为检索输入数据结构。
+- 用关键词匹配方式实现 `simple_retrieve()`，再将检索结果注入 prompt 完成回答。
+- 理解 RAG 核心：检索（Retrieve）+ 生成（Generate）。
+
+4. Python 基础语法巩固（结合项目代码）
+- 列表推导式用法与等价 `for + append` 写法。
+- `sum(1 for ... if ...)` 的计数逻辑。
+- `sort(key=lambda x: x[0], reverse=True)` 的排序机制与影响。
+
+5. 调试与报错定位
+- 成功定位步骤三报错根因：模板变量名 `context` 与输入字典 key `conmtext` 拼写不一致。
+- 理解 LangChain 报错信息中 Expected/Received 字段的排错价值。
+
+
+二、已掌握的知识（当前已达成）
+1. 能解释 Day1 三步主流程：基础调用 -> 模板化 -> 本地 RAG。
+2. 能解释 LCEL 三段链路的职责：Prompt 组装、模型推理、输出解析。
+3. 能理解并解释切块的目的，以及 overlap 的作用（减小上下文断裂）。
+4. 能解释为什么 RAG 中通常使用 `Document` 而非纯字符串（标准结构 + 可扩展元数据）。
+5. 能看懂并解释关键词检索实现逻辑（关键词清洗、命中计数、排序、TopK）。
+6. 能独立定位常见变量名不匹配导致的 Prompt 输入错误。
+7. 对参数变化的影响有初步判断（如 `top_k`、排序方向、切块粒度）。
+
+
+三、还未完全掌握/待加强的知识
+1. 中文场景下分词优化
+- 当前 `question.split()` 更适合按空格分词的文本。
+- 中文长句关键词提取能力有限，后续需要更合适的分词策略。
+
+2. 检索方式升级
+- 目前是关键词匹配，尚未进入“语义检索”阶段。
+- 后续需学习 Embedding + 向量库（如 FAISS/Chroma）实现语义相似检索。
+
+3. 参数调优经验
+- `chunk_size/chunk_overlap/top_k` 的设置还需通过更多实验形成稳定直觉。
+- 需要建立“不同文档类型 -> 参数推荐”的经验库。
+
+4. LangChain 组件深度
+- `RunnableLambda`、`RunnablePassthrough` 的高级用法还未深入。
+- `Document.metadata` 的实际利用（来源追踪、过滤、引用）有待加强。
+
+
+四、Day1 结论
+- Day1 目标已达成：不仅能跑通 demo，还能解释核心链路与关键代码。
+- 当前水平可进入 Day2：从关键词检索升级为向量语义检索，并继续完善 RAG 质量。
+
+
+五、Day2 建议起点（简版）
+1. 先学习并接入 Embedding 模型。
+2. 将切块后的 `Document` 写入 FAISS/Chroma。
+3. 用向量检索替换 `simple_retrieve()`。
+4. 对比关键词检索 vs 语义检索回答质量差异并记录结果。
