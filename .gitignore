@@ -21,6 +21,7 @@ docs/**/chroma_db_step3/
 
 # Local assistant/tool config
 .claude/
+AI实习规划_模型交接文档.md
 
 # OS / editor
 .DS_Store
