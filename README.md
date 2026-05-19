@@ -27,6 +27,25 @@ models/Qwen3-Embedding-0.6B
 ## 当前进度
 
 - Day1：最小 RAG 流程和 DeepSeek 调用复习。
-- Day2：LCEL、RunnablePassthrough、Embedding 语义检索、Chroma 向量库、完整 RAG 和 `k` 参数对比。
+- Day2：LCEL、RunnablePassthrough、Embedding 语义检索、Chroma 向量库、完整 RAG、参数对比和回答质量评估。
 
-下一步：用固定问题集对比 `chunk_size`、`chunk_overlap`、`top_k` 对检索结果和回答质量的影响。
+## Day2 阶段结论
+
+当前小知识库下的阶段性参数：
+
+```text
+chunk_size = 200
+chunk_overlap = 30
+top_k = 4
+```
+
+已完成的评估：
+
+- `top_k` 对比：`k` 变大能补充上下文，但可能引入无关片段。
+- `chunk_size` 对比：过小会切碎信息，过大可能混入泛化内容。
+- `chunk_overlap` 对比：可减少信息断裂，但当前短文档里效果不明显。
+- 固定问题集评估：发现 `Prompt 模板` 和 `Document.metadata` 相关知识库内容不足。
+- 知识库补强：补充 `Prompt 模板` 和 `Document.metadata` 后，检索效果明显改善。
+- 最终回答评估：`top_k=4` 能让“RAG 的关键步骤”回答补上第 5 步。
+
+下一步：进入 Day3，先做一个最小 Streamlit 或命令行交互版 RAG Demo，让项目从“脚本实验”变成“可展示应用”。
