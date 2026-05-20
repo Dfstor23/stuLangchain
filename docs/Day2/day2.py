@@ -109,9 +109,10 @@ def build_rag_chain(llm: ChatDeepSeek):
     return chain
 
 
+#完整RAG核心流程  （把问题和检索到的文档一同送给模型）
 def ask_with_trace(question: str, vectorstore: Chroma, llm: ChatDeepSeek, k: int = 3) -> Dict[str, Any]:
     """问答 + 打印检索轨迹（Day2重点）"""
-    hit_docs = retrieve_context(question, vectorstore, k=k) #！！！
+    hit_docs = retrieve_context(question, vectorstore, k=k) 
     context = format_context(hit_docs)
 
     rag_chain = build_rag_chain(llm)
