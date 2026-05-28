@@ -39,10 +39,19 @@ CHUNK_OVERLAP = 30
 TOP_K = 4
 
 
-st.set_page_config(page_title="RAG Demo", page_icon="🔎")
-st.title("RAG A&Q")
-st.write("输入一个问题，页面会调用 Day3 已跑通的 RAG 流程生成回答。")
+st.set_page_config(page_title="我的 RAG 知识库问答 Demo", page_icon="🔎")
+st.title("我的 RAG 知识库问答 Demo")
+st.write("输入一个问题，系统会从本地知识库检索相关片段，再结合大模型生成带来源参考的回答。")
 st.caption(f"当前参数：chunk_size={CHUNK_SIZE}, chunk_overlap={CHUNK_OVERLAP}, top_k={TOP_K}")
+st.markdown(
+    """
+**项目亮点：**
+
+- 基于本地知识库检索相关片段。
+- 回答结果展示命中片段和来源引用。
+- 检索不到资料时明确提示，降低模型幻觉风险。
+"""
+)
 
 question = st.text_input("请输入问题", placeholder="例如：RAG 的关键步骤是什么？")
 
@@ -61,6 +70,10 @@ if st.button("提交问题"):
                 )
                 vectorstore = build_or_refresh_vectorstore(docs)
                 result = ask_with_trace(question, vectorstore, llm, k=TOP_K)
+
+                if not result["hits"]:
+                    st.warning("抱歉，当前知识库未收录相关内容，建议查阅官方文档。")
+                    st.stop()
 
             st.subheader("模型回答")
             st.write(result["answer"])

@@ -100,7 +100,8 @@ def format_context(docs: List[Document]) -> str:
 def build_rag_chain(llm: ChatDeepSeek):
     """RAG 问答链"""
     prompt = ChatPromptTemplate.from_template(
-        "你是知识库问答助手，只能根据给定资料回答。\n\n"
+        "你是知识库问答助手，只能根据给定资料回答。\n"
+        "请尽量完整地列出资料中提到的所有相关要点，不要遗漏。\n\n"
         "资料如下：\n{context}\n\n"
         "问题：{question}\n"
         "若资料不足，请明确回答：资料中没有足够信息。"
